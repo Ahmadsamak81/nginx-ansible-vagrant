@@ -1,0 +1,25 @@
+- hosts: all
+  become: yes
+  tasks:
+    
+     - name: Install nginx web server latest
+       yum:
+        name: nginx
+        state: latest
+     
+      
+     - name: modify new index.html
+       template:
+          src: templates/index.html.j2  
+          dest: /usr/share/nginx/html/index.html
+       notify:
+            - restart nginx
+
+  handlers:
+    - name: restart nginx
+      service:
+         name: nginx
+         state: restarted  
+         
+
+  
